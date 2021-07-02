@@ -3,7 +3,7 @@ import CompA from './compA.vue'
 import { stringify } from '@vueuse/docs-utils'
 import { useToggle } from '@vueuse/shared'
 import { ref, computed, reactive } from 'vue-demi'
-import { useMousePressed } from '.'
+import { useDraggedOver } from '.'
 
 const el = ref<Element | null>(null)
 const [withTarget, toggle] = useToggle()
@@ -12,7 +12,7 @@ const target = computed<Element | null>(() => {
   return window as any as Element
 })
 
-const mouse = reactive(useMousePressed({ target }))
+const mouse = reactive(useDraggedOver({ target }))
 const text = stringify(mouse)
 </script>
 

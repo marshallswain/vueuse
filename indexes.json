@@ -407,6 +407,14 @@
       "description": "listen for clicks outside of an element"
     },
     {
+      "name": "useDraggedOver",
+      "package": "core",
+      "component": true,
+      "docs": "https://vueuse.org/core/useDraggedOver/",
+      "category": "Sensors",
+      "description": "listen for drags over element"
+    },
+    {
       "name": "onKeyStroke",
       "package": "core",
       "docs": "https://vueuse.org/core/onKeyStroke/",

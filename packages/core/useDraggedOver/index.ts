@@ -5,7 +5,7 @@ import { MouseSourceType } from '../useMouse'
 import { useDebounce } from '../../shared/useDebounce'
 import { ConfigurableWindow, defaultWindow } from '../_configurable'
 
-export interface MousePressedOptions extends ConfigurableWindow {
+export interface DraggedOverOptions extends ConfigurableWindow {
   /**
    * Listen to `touchstart` `touchend` events
    *
@@ -29,10 +29,10 @@ export interface MousePressedOptions extends ConfigurableWindow {
 /**
  * Reactive mouse position.
  *
- * @see https://vueuse.org/useMousePressed
+ * @see https://vueuse.org/useDraggedOver
  * @param options
  */
-export function useMousePressed(options: MousePressedOptions = {}) {
+export function useDraggedOver(options: DraggedOverOptions = {}) {
   const {
     touch = true,
     initialValue = false,
@@ -40,9 +40,9 @@ export function useMousePressed(options: MousePressedOptions = {}) {
   } = options
 
   const _pressed = ref(initialValue)
-  const pressed = useDebounce(_pressed, 0)
+  const pressed = useDebounce(_pressed, 5)
   const _sourceType = ref<MouseSourceType>(null)
-  const sourceType = useDebounce(_sourceType, 0)
+  const sourceType = useDebounce(_sourceType, 5)
 
   if (!window) {
     return {
@@ -62,8 +62,8 @@ export function useMousePressed(options: MousePressedOptions = {}) {
 
   const target = computed(() => unrefElement(options.target) || window)
 
-  useEventListener(target, 'mousedown', onPressed('mouse'), { passive: true })
   useEventListener(target, 'dragenter', onPressed('mouse'), { passive: true })
+  useEventListener(target, 'dragover', onPressed('mouse'), { passive: true })
 
   useEventListener(window, 'mouseleave', onReleased, { passive: true })
   useEventListener(window, 'mouseup', onReleased, { passive: true })
@@ -77,9 +77,9 @@ export function useMousePressed(options: MousePressedOptions = {}) {
   }
 
   return {
-    pressed,
+    draggedOver: pressed,
     sourceType,
   }
 }
 
-export type UseMousePressedReturn = ReturnType<typeof useMousePressed>
+export type useDraggedOverReturn = ReturnType<typeof useDraggedOver>
